@@ -1,6 +1,6 @@
 import React from "react";
 
-const AboutCompany = () => {
+const About = () => {
   return (
     <>
       <section id="about" className="bg-white py-12 md;py-20">
@@ -95,4 +95,4 @@ const AboutCompany = () => {
   );
 };
 
-export default AboutCompany;
+export default About;
