@@ -1,7 +1,27 @@
 import React, { useState } from "react";
+import { apiVersion } from "../../../../helpers/function-generals";
+import useQueryData from "../../../../custom-hooks/useQueryData";
+import ModalAddHeader from "./ModalAddHeader";
+import { FaPen } from "react-icons/fa";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isModalHeader, setIsModalHeader] = React.useState(false);
+  const {
+    isLoading,
+    isFetching,
+    error,
+    data: dataServices,
+  } = useQueryData(
+    `${apiVersion}/controllers/developer/web-services/web-services.php`,
+    "get",
+    "web-services"
+  );
+
+  const handleAdd = () => {
+    setIsModalHeader(true);
+  };
+
   return (
     <>
       {/* Header */}
@@ -27,6 +47,17 @@ const Header = () => {
             <a href="#contact" className="hover:text-blue-500">
               Contact
             </a>
+            <button
+              onClick={handleAdd}
+              className="flex items-center gap-2 hover:underline hover:text-primary"
+              type="button"
+            >
+              <div className="relative -mt-2 flex items-center justify-center ">
+                <span className="bg-primary size-5 rounded-full p-3 "></span>
+                <FaPen className="size-3 text-white absolute" />
+              </div>
+              Edit
+            </button>
           </nav>
 
           {/* Mobile Menu Button */}
@@ -97,9 +128,22 @@ const Header = () => {
             >
               Contact
             </a>
+            <button
+              onClick={handleAdd}
+              className="flex items-center gap-2 hover:underline hover:text-primary"
+              type="button"
+            >
+              <div className="relative -mt-2 flex items-center justify-center ">
+                <span className="bg-primary size-5 rounded-full p-3 "></span>
+                <FaPen className="size-3 text-white absolute" />
+              </div>
+              Edit
+            </button>
           </div>
         )}
       </header>
+
+      {isModalHeader && <ModalAddHeader setIsModal={setIsModalHeader} />}
     </>
   );
 };
