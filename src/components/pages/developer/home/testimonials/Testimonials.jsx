@@ -1,13 +1,34 @@
 import React from "react";
-import { HiOutlineChevronLeft, HiOutlineChevronRight } from "react-icons/hi";
+import {
+  HiOutlineChevronLeft,
+  HiOutlineChevronRight,
+  HiPencil,
+} from "react-icons/hi";
 import CardTestimonial from "../../../../partials/CardTestimonial";
+import ModalAddTestimonials from "./ModalAddTestimonials";
 
 const Testimonials = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
+  const [isModalTestimonials, setIsModalTestimonials] = React.useState(false);
+
+  const handleAdd = () => {
+    setIsModalTestimonials(true);
+  };
   return (
     <>
       {/* testimonials */}
       <section id="testimonials" className="py-16 bg-gray-50">
+        <div className="flex justify-end pr-5">
+          <button
+            onClick={handleAdd}
+            className="tooltip "
+            data-tooltip="Add"
+            type="button"
+          >
+            <HiPencil className="flex items-end size-6 bg-primary text-white rounded-full p-1 ease-in-out duration-200 border transition-all " />
+          </button>
+        </div>
+
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-12">
             Client Testimonials
@@ -84,6 +105,10 @@ const Testimonials = () => {
           </div>
         </div>
       </section>
+
+      {isModalTestimonials && (
+        <ModalAddTestimonials setIsModal={setIsModalTestimonials} />
+      )}
 
       {/* <section className="bg-gray-50 py-12">
         <div className="container">

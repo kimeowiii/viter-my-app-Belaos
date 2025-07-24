@@ -1,21 +1,22 @@
-import React from "react";
-import { FaTimes } from "react-icons/fa";
-import ModalWrapper from "../../../../partials/modal/ModalWrapper";
-import { Form, Formik } from "formik";
-import { InputText } from "../../../../helpers/FormInputs";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React from "react";
 import { queryData } from "../../../../custom-hooks/queryData";
 import * as Yup from "yup";
+import ModalWrapper from "../../../../partials/modal/ModalWrapper";
+import { FaTimes } from "react-icons/fa";
+import { Form, Formik } from "formik";
+import { InputText, InputTextArea } from "../../../../helpers/FormInputs";
 import { apiVersion } from "../../../../helpers/function-generals";
 
-const ModalAddHeader = ({ setIsModal }) => {
+const ModalAddTestimonials = ({ setIsModal }) => {
   const [animate, setAnimate] = React.useState("translate-x-full");
 
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        `${apiVersion}/controllers/developer/header/header.php`,
+        `${apiVersion}/controllers/developer/testimonials/testimonials.php`,
         "post", //CREATE
         values
       ),
@@ -41,13 +42,17 @@ const ModalAddHeader = ({ setIsModal }) => {
   };
 
   const initVal = {
-    header_name: "",
-    header_link: "",
+    testimonials_image: "",
+    testimonials_description: "",
+    testimonials_name: "",
+    testimonials_position: "",
   };
 
   const yupSchema = Yup.object({
-    header_name: Yup.string().required("required"),
-    header_link: Yup.string().required("required"),
+    testimonials_image: Yup.string().required("required"),
+    testimonials_description: Yup.string().required("required"),
+    testimonials_name: Yup.string().required("required"),
+    testimonials_position: Yup.string().required("required"),
   });
 
   //UPON USING THIS MODAL AND ALL ELEMENT TAG ARE RENDERED, RUN THIS CODE
@@ -59,7 +64,7 @@ const ModalAddHeader = ({ setIsModal }) => {
     <>
       <ModalWrapper className={`${animate}`} handleClose={handleClose}>
         <div className="modal_header relative mb-4">
-          <h3 className="text-sm">Add Header</h3>
+          <h3 className="text-sm">Add Testimonials</h3>
           <button
             className="absolute  top-0.5 right-0"
             type="button"
@@ -68,6 +73,7 @@ const ModalAddHeader = ({ setIsModal }) => {
             <FaTimes className="size-4" />
           </button>
         </div>
+
         <div className="modal_body overflow-y-auto overflow-x-hidden max-h-[calc(100dvh-40px)]">
           <Formik
             initialValues={initVal}
@@ -79,28 +85,41 @@ const ModalAddHeader = ({ setIsModal }) => {
           >
             {(props) => {
               return (
-                // Forms
                 <Form>
                   <div className="modal-overflow">
-                    <div className="relative mt-3">
+                    <div className="relative mt-3 mb-5">
                       <InputText
-                        label="Name"
-                        name="header_name"
+                        label="Image url"
+                        name="testimonials_image"
                         type="text"
                         disabled={mutation.isPending}
                       />
                     </div>
                     <div className="relative mt-3 mb-5">
+                      <InputTextArea
+                        label="Description"
+                        name="testimonials_description"
+                        type="text"
+                        disabled={mutation.isPending}
+                      />
+                    </div>
+                    <div className="relative mt-3">
                       <InputText
-                        label="Link"
-                        name="header_link"
+                        label="Name"
+                        name="testimonials_name"
+                        type="text"
+                        disabled={mutation.isPending}
+                      />
+                    </div>
+                    <div className="relative mt-3">
+                      <InputText
+                        label="Position"
+                        name="testimonials_position"
                         type="text"
                         disabled={mutation.isPending}
                       />
                     </div>
                   </div>
-
-                  {/* Actions */}
                   <div className="modal__action flex justify-end absolute bottom-0 w-full mt-6 mb-4 gap-2 left-0 px-6">
                     <button
                       type="submit"
@@ -128,4 +147,4 @@ const ModalAddHeader = ({ setIsModal }) => {
   );
 };
 
-export default ModalAddHeader;
+export default ModalAddTestimonials;

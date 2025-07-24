@@ -60,15 +60,15 @@ const ModalAddServices = ({ setIsModal }) => {
   return (
     <ModalWrapper className={`${animate}`} handleClose={handleClose}>
       <div className="modal_header relative mb-4">
-        <FaPen />
-        <button
-          className="absolute  top-0.5 right-0"
-          type="button"
-          onClick={handleClose}
-        >
-          <FaTimes className="size-4" />
-        </button>
-      </div>
+                <h3 className="text-sm">Add Services</h3>
+                <button
+                  className="absolute  top-0.5 right-0"
+                  type="button"
+                  onClick={handleClose}
+                >
+                  <FaTimes className="size-4" />
+                </button>
+              </div>
       <div className="modal_body overflow-y-auto overflow-x-hidden max-h-[calc(100dvh-40px)]">
         <Formik
           initialValues={initVal}

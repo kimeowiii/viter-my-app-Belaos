@@ -2,21 +2,21 @@ import React, { useState } from "react";
 import { apiVersion } from "../../../../helpers/function-generals";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import ModalAddHeader from "./ModalAddHeader";
-import { FaPen } from "react-icons/fa";
+import { HiPencil } from "react-icons/hi";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isModalHeader, setIsModalHeader] = React.useState(false);
-  const {
-    isLoading,
-    isFetching,
-    error,
-    data: dataServices,
-  } = useQueryData(
-    `${apiVersion}/controllers/developer/web-services/web-services.php`,
-    "get",
-    "web-services"
-  );
+  // const {
+  //   isLoading,
+  //   isFetching,
+  //   error,
+  //   data: dataServices,
+  // } = useQueryData(
+  //   `${apiVersion}/controllers/developer/header/header.php`,
+  //   "get",
+  //   "header"
+  // );
 
   const handleAdd = () => {
     setIsModalHeader(true);
@@ -34,7 +34,7 @@ const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex space-x-6">
+          <nav className="hidden md:flex space-x-6 items-center">
             <a href="#" className="hover:text-blue-500">
               Home
             </a>
@@ -49,14 +49,11 @@ const Header = () => {
             </a>
             <button
               onClick={handleAdd}
-              className="flex items-center gap-2 hover:underline hover:text-primary"
+              className="tooltip"
+              data-tooltip="Add"
               type="button"
             >
-              <div className="relative -mt-2 flex items-center justify-center ">
-                <span className="bg-primary size-5 rounded-full p-3 "></span>
-                <FaPen className="size-3 text-white absolute" />
-              </div>
-              Edit
+              <HiPencil className="size-6 bg-primary text-white rounded-full p-1 ease-in-out duration-200 border transition-all " />
             </button>
           </nav>
 
@@ -130,14 +127,11 @@ const Header = () => {
             </a>
             <button
               onClick={handleAdd}
-              className="flex items-center gap-2 hover:underline hover:text-primary"
+              className="tooltip"
+              data-tooltip="Add"
               type="button"
             >
-              <div className="relative -mt-2 flex items-center justify-center ">
-                <span className="bg-primary size-5 rounded-full p-3 "></span>
-                <FaPen className="size-3 text-white absolute" />
-              </div>
-              Edit
+              <HiPencil className="size-6 bg-primary text-white rounded-full p-1 ease-in-out duration-200 border transition-all " />
             </button>
           </div>
         )}

@@ -66,13 +66,13 @@ function invalidInput()
 
 function checkPayload($jsonData)
 {
-    if (!isset($jsonData) || $jsonData === null) {
+    if (empty($jsonData) || $jsonData === null) {
         invalidInput();
     }
 }
 function  checkIndex($jsonData, $index)
 {
-    if (!empty($jsonData[$index]) || $jsonData[$index] === '') {
+    if (!isset($jsonData[$index]) || $jsonData[$index] === '') {
         invalidInput();
     }
     return trim($jsonData[$index]);
