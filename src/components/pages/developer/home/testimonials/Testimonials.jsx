@@ -6,10 +6,24 @@ import {
 } from "react-icons/hi";
 import CardTestimonial from "../../../../partials/CardTestimonial";
 import ModalAddTestimonials from "./ModalAddTestimonials";
+import { apiVersion } from "../../../../helpers/function-generals";
+import useQueryData from "../../../../custom-hooks/useQueryData";
 
 const Testimonials = () => {
   const [currentSlide, setCurrentSlide] = React.useState(0);
   const [isModalTestimonials, setIsModalTestimonials] = React.useState(false);
+
+  const {
+    isLoading,
+    isFetching,
+    error,
+    data: dataTestimonials,
+  } = useQueryData(
+    `${apiVersion}/controllers/developer/testimonials/testimonials.php`,
+    "get",
+    "testimonials"
+  );
+
 
   const handleAdd = () => {
     setIsModalTestimonials(true);
@@ -42,7 +56,15 @@ const Testimonials = () => {
                 className="flex transition-transform duration-300 ease-in-out"
                 style={{ transform: `translateX(-${currentSlide * 100}%` }}
               >
-                <CardTestimonial
+                {dataTestimonials?.data.map((item, key) => {
+                  return (
+                    <React.Fragment key={key}>
+                      <CardTestimonial item={item} />
+                    </React.Fragment>
+                  );
+                })}
+
+                {/* <CardTestimonial
                   img={"images/testimonials-1.webp"}
                   alt={"Sarah Johnson"}
                   testimony={
@@ -68,7 +90,7 @@ const Testimonials = () => {
                   }
                   name={"Emma Rodriguez"}
                   position={"CMO, GrowthSolutions"}
-                />
+                /> */}
               </div>
             </div>
 

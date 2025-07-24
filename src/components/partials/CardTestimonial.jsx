@@ -1,20 +1,20 @@
 import React from "react";
 
-const CardTestimonial = ({ img, alt, testimony, name, position }) => {
+const CardTestimonial = ({ item }) => {
   return (
     <>
       <div className="w-full flex-shrink-0 px-4">
         <div className="bg-white p-8 rounded-xl shadow-md text-center">
           <img
-            src={img}
+            src={item.testimonials_image}
             alt={alt}
             className="size-20 mx-auto mb-4 object-cover rounded-full"
           />
           <p className="text-gray-600 italic mb-4">
-            " <span> {testimony}</span> "
+            " <span> {item.testimonials_description}</span> "
           </p>
-          <h4 className="font-bold">{name}</h4>
-          <p className="text-gray-500 text-sm">{position}</p>
+          <h4 className="font-bold">{item.testimonials_name}</h4>
+          <p className="text-gray-500 text-sm">{item.testimonials_position}</p>
         </div>
       </div>
     </>
