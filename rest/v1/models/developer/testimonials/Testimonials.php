@@ -25,6 +25,22 @@ class Testimonials
         $this->tblTestimonials = 'my_app_testimonials';
     }
 
+
+
+    public function readAll()
+    {
+        try {
+            $sql = "select ";
+            $sql .= "* ";
+            $sql .= "from ";
+            $sql .= "{$this->tblTestimonials} ";
+            $query = $this->connection->query($sql);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+
     //Creating a data using this func
     public function create()
     {

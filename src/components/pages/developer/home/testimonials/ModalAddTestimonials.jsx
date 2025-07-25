@@ -22,7 +22,7 @@ const ModalAddTestimonials = ({ setIsModal }) => {
       ),
     onSuccess: (data) => {
       // //validate reading
-      // queryClient.invalidateQueries(""); // give id for refetching data.
+      queryClient.invalidateQueries({ queryKey: ["testimonials"] }); // give id for refetching data.
 
       if (data.success) {
         alert("Succcessfully Created.");

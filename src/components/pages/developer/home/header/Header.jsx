@@ -3,22 +3,31 @@ import { apiVersion } from "../../../../helpers/function-generals";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import ModalAddHeader from "./ModalAddHeader";
 import { HiPencil } from "react-icons/hi";
+import { FaPencil } from "react-icons/fa6";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const [isModalHeader, setIsModalHeader] = React.useState(false);
-  // const {
-  //   isLoading,
-  //   isFetching,
-  //   error,
-  //   data: dataServices,
-  // } = useQueryData(
-  //   `${apiVersion}/controllers/developer/header/header.php`,
-  //   "get",
-  //   "header"
-  // );
+  const [itemEdit, setItemEdit] = React.useState();
+
+  const {
+    isLoading,
+    isFetching,
+    error,
+    data: dataHeader,
+  } = useQueryData(
+    `${apiVersion}/controllers/developer/header/header.php`,
+    "get",
+    "header"
+  );
 
   const handleAdd = () => {
+    setItemEdit(null);
+    setIsModalHeader(true);
+  };
+
+  const handleEdit = (item) => {
+    setItemEdit(item);
     setIsModalHeader(true);
   };
 
@@ -35,7 +44,21 @@ const Header = () => {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex space-x-6 items-center">
-            <a href="#" className="hover:text-blue-500">
+            {dataHeader?.data.map((item, key) => {
+              return (
+                <div key={key} className="relative">
+                  <a
+                    href={item.header_link}
+                    onClick={() => handleEdit(item)}
+                    className="hover:text-blue-500"
+                  >
+                    {item.header_name}
+                  </a>
+                </div>
+              );
+            })}
+
+            {/* <a href="#" className="hover:text-blue-500">
               Home
             </a>
             <a href="#about" className="hover:text-blue-500">
@@ -46,7 +69,15 @@ const Header = () => {
             </a>
             <a href="#contact" className="hover:text-blue-500">
               Contact
-            </a>
+              <button
+                onClick={() => handleEdit()}
+                type="button"
+                data-tooltip="Edit"
+                className="tooltip text-white"
+              >
+                 <FaPencil className="p-1 bg-primary rounded-full" />
+              </button>
+            </a> */}
             <button
               onClick={handleAdd}
               className="tooltip"
@@ -137,7 +168,9 @@ const Header = () => {
         )}
       </header>
 
-      {isModalHeader && <ModalAddHeader setIsModal={setIsModalHeader} />}
+      {isModalHeader && (
+        <ModalAddHeader setIsModal={setIsModalHeader} itemEdit={itemEdit} />
+      )}
     </>
   );
 };

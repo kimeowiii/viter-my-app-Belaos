@@ -8,20 +8,24 @@ import { InputText, InputTextArea } from "../../../../helpers/FormInputs";
 import * as Yup from "yup";
 import { apiVersion } from "../../../../helpers/function-generals";
 
-const ModalAddServices = ({ setIsModal }) => {
+const ModalAddServices = ({ setIsModal, itemEdit }) => {
   const [animate, setAnimate] = React.useState("translate-x-full");
-
   const queryClient = useQueryClient();
+
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        ` ${apiVersion}/controllers/developer/web-services/web-services.php`,
-        "post", //CREATE
+        itemEdit
+          ? `${apiVersion}/controllers/developer/web-services/web-services.php?id=${itemEdit.web_services_aid}`
+          : ` ${apiVersion}/controllers/developer/web-services/web-services.php`,
+        itemEdit
+          ? "PUT" // UPDATE
+          : "post", //CREATE
         values
       ),
     onSuccess: (data) => {
       //validate reading
-      queryClient.invalidateQueries(""); // give id for refetching data.
+      queryClient.invalidateQueries({ queryKey: ["web-services"] }); // give id for refetching data.
 
       if (!data.success) {
         window.prompt(data.error);
@@ -41,11 +45,11 @@ const ModalAddServices = ({ setIsModal }) => {
   };
 
   const initVal = {
-    web_services_name: "",
-    web_services_description: "",
-    web_services_image: "",
-    web_services_link: "",
-    web_services_text_url: "",
+    web_services_name: itemEdit ? itemEdit.web_services_name : "",
+    web_services_description: itemEdit ? itemEdit.web_services_description : "",
+    web_services_image: itemEdit ? itemEdit.web_services_image : "",
+    web_services_link: itemEdit ? itemEdit.web_services_link : "",
+    web_services_text_url: itemEdit ? itemEdit.web_services_text_url : "",
   };
 
   const yupSchema = Yup.object({
@@ -60,15 +64,15 @@ const ModalAddServices = ({ setIsModal }) => {
   return (
     <ModalWrapper className={`${animate}`} handleClose={handleClose}>
       <div className="modal_header relative mb-4">
-                <h3 className="text-sm">Add Services</h3>
-                <button
-                  className="absolute  top-0.5 right-0"
-                  type="button"
-                  onClick={handleClose}
-                >
-                  <FaTimes className="size-4" />
-                </button>
-              </div>
+        <h3 className="text-sm">{itemEdit ? "Edit" : "Add"} Services</h3>
+        <button
+          className="absolute  top-0.5 right-0"
+          type="button"
+          onClick={handleClose}
+        >
+          <FaTimes className="size-4" />
+        </button>
+      </div>
       <div className="modal_body overflow-y-auto overflow-x-hidden max-h-[calc(100dvh-40px)]">
         <Formik
           initialValues={initVal}
@@ -129,7 +133,11 @@ const ModalAddServices = ({ setIsModal }) => {
                     disabled={mutation.isPending}
                     className="btn-modal-submit"
                   >
-                    {mutation.isPending ? "Loading..." : "Add"}
+                    {mutation.isPending
+                      ? "Loading..."
+                      : itemEdit
+                      ? "Save"
+                      : "Add"}
                   </button>
                   <button
                     type="reset"
