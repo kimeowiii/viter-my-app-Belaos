@@ -8,7 +8,7 @@ import { Form, Formik } from "formik";
 import { InputText, InputTextArea } from "../../../../helpers/FormInputs";
 import { apiVersion } from "../../../../helpers/function-generals";
 
-const ModalAddTestimonials = ({ setIsModal }) => {
+const ModalAddTestimonials = ({ setIsModal, itemEdit }) => {
   const [animate, setAnimate] = React.useState("translate-x-full");
 
   const queryClient = useQueryClient();
@@ -16,8 +16,12 @@ const ModalAddTestimonials = ({ setIsModal }) => {
   const mutation = useMutation({
     mutationFn: (values) =>
       queryData(
-        `${apiVersion}/controllers/developer/testimonials/testimonials.php`,
-        "post", //CREATE
+        itemEdit
+          ? `${apiVersion}/controllers/developer/testimonials/testimonials.php?id=${itemEdit.testimonials_aid}`
+          : `${apiVersion}/controllers/developer/testimonials/testimonials.php`,
+        itemEdit
+          ? "put" // UPDATE
+          : "post", //CREATE
         values
       ),
     onSuccess: (data) => {
@@ -42,10 +46,10 @@ const ModalAddTestimonials = ({ setIsModal }) => {
   };
 
   const initVal = {
-    testimonials_image: "",
-    testimonials_description: "",
-    testimonials_name: "",
-    testimonials_position: "",
+    testimonials_image: itemEdit ? itemEdit.testimonials_image : "",
+    testimonials_description: itemEdit ? itemEdit.testimonials_description : "",
+    testimonials_name: itemEdit ? itemEdit.testimonials_name : "",
+    testimonials_position: itemEdit ? itemEdit.testimonials_position : "",
   };
 
   const yupSchema = Yup.object({
@@ -64,7 +68,7 @@ const ModalAddTestimonials = ({ setIsModal }) => {
     <>
       <ModalWrapper className={`${animate}`} handleClose={handleClose}>
         <div className="modal_header relative mb-4">
-          <h3 className="text-sm">Add Testimonials</h3>
+          <h3 className="text-sm">{itemEdit ? "Edit" : "Add"} Testimonials</h3>
           <button
             className="absolute  top-0.5 right-0"
             type="button"
@@ -126,7 +130,11 @@ const ModalAddTestimonials = ({ setIsModal }) => {
                       disabled={mutation.isPending}
                       className="btn-modal-submit"
                     >
-                      {mutation.isPending ? "Loading..." : "Add"}
+                      {mutation.isPending
+                        ? "Loading..."
+                        : itemEdit
+                        ? "Save"
+                        : "Add"}
                     </button>
                     <button
                       type="reset"
