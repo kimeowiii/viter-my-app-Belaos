@@ -5,6 +5,7 @@ import { FaPencil } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa";
 
 const TestimonialsList = ({
+  item,
   isLoading,
   isFetching,
   error,
@@ -19,7 +20,7 @@ const TestimonialsList = ({
       {/* Testimonial Slider */}
       <div className="relative max-w-4xl mx-auto">
         {/* Slides */}
-        <div className="overflow-hidden">
+        <div className="overflow-x-hidden">
           <div
             className="flex transition-transform duration-300 ease-in-out"
             style={{ transform: `translateX(-${currentSlide * 100}%` }}
@@ -31,7 +32,8 @@ const TestimonialsList = ({
                     item={item}
                     handleDelete={handleDelete}
                     handleEdit={handleEdit}
-                  ></CardTestimonial>
+                  >
+                  </CardTestimonial>
                 </React.Fragment>
               );
             })}
@@ -65,11 +67,11 @@ const TestimonialsList = ({
           {dataTestimonials?.data.map((item, index) => (
             <button
               key={index}
-              onClick={() => setCurrentSlide(item, index)}
+              onClick={() => setCurrentSlide(index)}
               className={`size-3 rounded-full ${
                 currentSlide === index ? "bg-blue-600" : "bg-gray-300"
               }`}
-            />
+            ></button>
           ))}
         </div>
       </div>

@@ -41,7 +41,7 @@ const Services = () => {
     setItemEdit(item);
     setIsDeleteServices(true);
   };
-  
+
   const handleToggleTable = () => {
     setIsTable(!isTable);
   };

@@ -1,6 +1,47 @@
 import React from "react";
+import ContactTable from "./ContactTable";
+import ContactList from "./ContactList";
+import { apiVersion } from "../../../../helpers/function-generals";
+import useQueryData from "../../../../custom-hooks/useQueryData";
+import { FaList, FaPlus, FaTable } from "react-icons/fa";
+import ModalDeleteContact from "./ModalDeleteContact";
 
 const Contact = () => {
+  const [isModalContact, setIsModalContact] = React.useState(false);
+  const [isDeleteContact, setIsDeleteContact] = React.useState(false);
+  const [itemEdit, setItemEdit] = React.useState();
+  const [isTable, setIsTable] = React.useState(false);
+
+  const {
+    isLoading,
+    isFetching,
+    error,
+    data: dataContact,
+  } = useQueryData(
+    `${apiVersion}/controllers/developer/contact/contact.php`,
+    "get",
+    "contact"
+  );
+
+  const handleAdd = () => {
+    setItemEdit(null);
+    setIsModalContact(true);
+  };
+
+  const handleEdit = (item) => {
+    setItemEdit(item);
+    setIsModalContact(true);
+  };
+
+  const handleDelete = (item) => {
+    setItemEdit(item);
+    setIsDeleteContact(true);
+  };
+
+  const handleToggleTable = () => {
+    setIsTable(!isTable);
+  };
+
   return (
     <>
       <section id="contact" className="bg-white py-12 md:py-20">
@@ -107,25 +148,66 @@ const Contact = () => {
                 </li>
               </ul>
             </div>
-
-            <form className="contact bg-gray-50 rounded-xl p-8 h-fit md:w-1/2">
-              <div className="relative">
-                <label>Full Name</label>
-                <input type="text" />
+            <div className=" bg-gray-50 rounded-xl p-8 h-fit md:w-1/2 relative">
+              <div className="top-0 right-8 absolute ">
+                <button
+                  onClick={handleToggleTable}
+                  className="flex items-center gap-2 hover:underline hover:text-primary"
+                  type="button"
+                >
+                  {isTable == true ? (
+                    <>
+                      <FaList className="size-3" />
+                      List
+                    </>
+                  ) : (
+                    <>
+                      <FaTable className="size-3" />
+                      Table
+                    </>
+                  )}
+                </button>
               </div>
-              <div  className="relative">
-                <label>Email Address</label>
-                <input type="text" />
-              </div>
-              <div  className="relative">
-                <label>Message</label>
-                <textarea rows="4"></textarea>
-              </div>
-              <button className="btn btn--blue w-full">Send Message</button>
-            </form>
+              {isTable == true ? (
+                <>
+                  <ContactTable
+                    isLoading={isLoading}
+                    isFetching={isFetching}
+                    error={error}
+                    dataContact={dataContact}
+                    handleAdd={handleAdd}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                    handleToggleTable={handleToggleTable}
+                  ></ContactTable>
+                </>
+              ) : (
+                <ContactList
+                  isLoading={isLoading}
+                  isFetching={isFetching}
+                  error={error}
+                  dataContact={dataContact}
+                  handleAdd={handleAdd}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                  handleToggleTable={handleToggleTable}
+                ></ContactList>
+              )}
+            </div>
           </div>
         </div>
       </section>
+      {/* {isModalContact && (
+        <ModalAddContact setIsModal={setIsModalContact} itemEdit={itemEdit} />
+      )} */}
+
+      {isDeleteContact && (
+        <ModalDeleteContact
+          setModalDeleteContact={setIsDeleteContact}
+          mySqlEndpoint={`${apiVersion}/controllers/developer/contact/contact.php?id=${itemEdit.contact_aid}`}
+          queryKey="contact"
+        />
+      )}
     </>
   );
 };

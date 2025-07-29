@@ -6,13 +6,14 @@ $conn = checkDatabaseConnection();
 
 // use models
 
-$testimonials = new Testimonials($conn);
+$contact = new Contact($conn);
 
 
 // if(array_key_exist('id, $_GET')){
+// $webServices
 // }
 if (empty($_GET)) {
-    $query = checkReadAll($testimonials);
+    $query = checkReadAll($contact);
     http_response_code(200);
     getQueriedData($query);
 }
