@@ -5,6 +5,7 @@ import { apiVersion } from "../../../../helpers/function-generals";
 import useQueryData from "../../../../custom-hooks/useQueryData";
 import { FaList, FaPlus, FaTable } from "react-icons/fa";
 import ModalDeleteContact from "./ModalDeleteContact";
+import ModalEditContact from "./ModalEditContact";
 
 const Contact = () => {
   const [isModalContact, setIsModalContact] = React.useState(false);
@@ -148,8 +149,8 @@ const Contact = () => {
                 </li>
               </ul>
             </div>
-            <div className=" bg-gray-50 rounded-xl p-8 h-fit md:w-1/2 relative">
-              <div className="top-0 right-8 absolute ">
+            <div className=" bg-gray-50 rounded-xl p-8 w-full h-fit relative">
+              <div className="top-1 right-8 absolute ">
                 <button
                   onClick={handleToggleTable}
                   className="flex items-center gap-2 hover:underline hover:text-primary"
@@ -197,9 +198,9 @@ const Contact = () => {
           </div>
         </div>
       </section>
-      {/* {isModalContact && (
-        <ModalAddContact setIsModal={setIsModalContact} itemEdit={itemEdit} />
-      )} */}
+      {isModalContact && (
+        <ModalEditContact setIsModal={setIsModalContact} itemEdit={itemEdit} />
+      )}
 
       {isDeleteContact && (
         <ModalDeleteContact

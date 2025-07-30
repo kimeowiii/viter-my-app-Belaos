@@ -13,25 +13,26 @@ const ContactTable = ({
 }) => {
   return (
     <>
-      <table>
+      <table className="text-left">
         <thead>
-          <th>#</th>
-          <th>Full Name</th>
-          <th>Email</th>
-          <th>Message</th>
-          <th>Action</th>
+          <tr>
+            <th>#</th>
+            <th>Full Name</th>
+            <th>Email</th>
+            <th>Message</th>
+            <th>Action</th>
+          </tr>
         </thead>
         <tbody>
           {dataContact?.data.map((item, index) => {
             return (
-              <tr>
+              <tr key={index}>
                 <td>{index + 1}</td>
                 <td>{item.contact_fullname}</td>
                 <td>{item.contact_email}</td>
                 <td>{item.contact_message}</td>
                 <td>
-                  {" "}
-                  <div className="flex items-center justify-start mr-5">
+                  <div className="flex items-center justify-start">
                     <button
                       onClick={() => handleEdit(item)}
                       type="button"

@@ -30,6 +30,7 @@ const ModalAddHeader = ({ setIsModal, itemEdit }) => {
 
       if (data.success) {
         alert("Succcessfully Created.");
+        setIsModal(false);
       } else {
         alert(data.error);
       }
@@ -48,6 +49,8 @@ const ModalAddHeader = ({ setIsModal, itemEdit }) => {
   const initVal = {
     header_name: itemEdit ? itemEdit.header_name : "",
     header_link: itemEdit ? itemEdit.header_link : "",
+
+    header_name_old: itemEdit ? itemEdit.header_name : "", // for update
   };
 
   const yupSchema = Yup.object({
@@ -80,6 +83,7 @@ const ModalAddHeader = ({ setIsModal, itemEdit }) => {
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               console.log(values);
               mutation.mutate(values);
+              resetForm();
             }}
           >
             {(props) => {

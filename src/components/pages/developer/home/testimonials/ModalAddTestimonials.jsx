@@ -29,7 +29,9 @@ const ModalAddTestimonials = ({ setIsModal, itemEdit }) => {
       queryClient.invalidateQueries({ queryKey: ["testimonials"] }); // give id for refetching data.
 
       if (data.success) {
+        setIsModal(false); // close modal
         alert("Succcessfully Created.");
+        resetForm(); // reset form after success
       } else {
         alert(data.error);
       }
@@ -85,6 +87,7 @@ const ModalAddTestimonials = ({ setIsModal, itemEdit }) => {
             onSubmit={async (values, { setSubmitting, resetForm }) => {
               console.log(values);
               mutation.mutate(values);
+              resetForm();
             }}
           >
             {(props) => {

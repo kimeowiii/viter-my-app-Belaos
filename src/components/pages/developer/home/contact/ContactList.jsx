@@ -45,6 +45,9 @@ const ContactList = ({
     contact_fullname: itemEdit ? itemEdit.contact_fullname : "",
     contact_email: itemEdit ? itemEdit.contact_email : "",
     contact_message: itemEdit ? itemEdit.contact_message : "",
+    // contact_fullname: "",
+    // contact_email: "",
+    // contact_message: "",
   };
 
   return (
@@ -66,6 +69,7 @@ const ContactList = ({
                 type="text"
                 disabled={mutation.isPending}
               />
+              Full Name
             </div>
             <div className="relative mt-3 mb-5">
               <InputText
@@ -74,6 +78,7 @@ const ContactList = ({
                 type="text"
                 disabled={mutation.isPending}
               />
+              Email Address
             </div>
             <div className="relative mt-3 mb-5">
               <InputTextArea
@@ -82,6 +87,7 @@ const ContactList = ({
                 type="text"
                 disabled={mutation.isPending}
               />
+              Message
             </div>
           </div>
           <button

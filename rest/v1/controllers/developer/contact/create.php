@@ -19,5 +19,7 @@ $contact->contact_message = checkIndex($data, 'contact_message');
 $contact->contact_created = date("Y-m-d H:i:s");
 $contact->contact_updated = date("Y-m-d H:i:s");
 
+isEmailExist($contact, $contact->contact_email);
+
 $query = checkCreate($contact);
 returnSuccess($contact, "contact create", $query);

@@ -92,6 +92,7 @@ class Contact
         }
         return $query;
     }
+    
     public function delete()
     {
         try {
@@ -100,6 +101,20 @@ class Contact
             $query = $this->connection->prepare($sql);
             $query->execute([
                 "contact_aid" => $this->contact_aid
+            ]);
+        } catch (PDOException $ex) {
+            $query = false;
+        }
+        return $query;
+    }
+    public function checkEmail()
+    {
+        try {
+            $sql = "select contact_email from {$this->tblContact} ";
+            $sql .= "where contact_email = :contact_email ";
+            $query = $this->connection->prepare($sql);
+            $query->execute([
+                "contact_email" => $this->contact_email
             ]);
         } catch (PDOException $ex) {
             $query = false;

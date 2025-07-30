@@ -4,9 +4,10 @@ import { queryData } from "../../../../custom-hooks/queryData";
 import { MdDelete } from "react-icons/md";
 import { GrFormClose } from "react-icons/gr";
 
-const ModalDeleteContact = ({ setModalDelete, mySqlEndpoint, queryKey }) => {
+const ModalDeleteContact = ({ setModalDeleteContact, mySqlEndpoint, queryKey }) => {
+
   const handleClose = () => {
-    setModalDelete(false);
+    setModalDeleteContact(false);
   };
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -47,7 +48,7 @@ const ModalDeleteContact = ({ setModalDelete, mySqlEndpoint, queryKey }) => {
             </div>
             <div className="p-5 text-center">
               <h3 className="text-sm pb-2 text-black">
-                Are you sure you want to delete this services?
+                Are you sure you want to delete this contact?
               </h3>
               <div className="flex justify-center items-center mt-5 gap-2 ">
                 <button

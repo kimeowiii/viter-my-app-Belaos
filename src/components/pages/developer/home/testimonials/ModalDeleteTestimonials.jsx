@@ -5,6 +5,7 @@ import { MdDelete } from "react-icons/md";
 import { queryData } from "../../../../custom-hooks/queryData";
 
 const ModalDeleteTestimonials = ({
+  count,
   setModalDelete,
   mySqlEndpoint,
   queryKey,
@@ -35,7 +36,6 @@ const ModalDeleteTestimonials = ({
     setCurrentSlide((prev) =>
       prev == 0 ? dataTestimonials.count - 1 : prev - 1
     );
-
     mutation.mutate();
   };
   return (
