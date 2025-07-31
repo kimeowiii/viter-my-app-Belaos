@@ -7,8 +7,11 @@ import ModalAddServices from "./ModalAddServices";
 import { FaPencil } from "react-icons/fa6";
 import ModalDeleteServices from "./ModalDeleteServices";
 import ServicesList from "./ServicesList";
-import { useIsFetching } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import ServicesTable from "./ServicesTable";
+import { queryData } from "../../../../custom-hooks/queryData";
+import { queryDataInfinite } from "../../../../custom-hooks/queryDataInfinite";
+import { useInView } from "react-intersection-observer";
 
 const Services = () => {
   const [isModalServices, setIsModalServices] = React.useState(false);
@@ -16,16 +19,52 @@ const Services = () => {
   const [itemEdit, setItemEdit] = React.useState();
   const [isTable, setIsTable] = React.useState(false);
 
+  const [page, setPage] = React.useState(1);
+  const [ref, Inview] = useInView();
+
   const {
     isLoading,
-    isFetching,
-    error,
+    isFetching: isFetchingDataServices,
+    error: errorDataServices,
     data: dataServices,
+    status,
   } = useQueryData(
     `${apiVersion}/controllers/developer/web-services/web-services.php`,
     "get",
     "web-services"
   );
+
+  const {
+    data: result,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+  } = useInfiniteQuery({
+    queryKey: ["web-services"],
+    queryFn: async ({ pageParam = 1 }) =>
+      await queryDataInfinite(
+        ``, //search fnctionalities
+        `${apiVersion}/controllers/developer/web-services/page.php?start=${pageParam}`, //load more or pagination
+        false, //isSearch
+        {}, //searchData
+        "post"
+      ),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total) {
+        return lastPage.page + lastPage.count;
+      }
+      return;
+    },
+  });
+
+  React.useEffect(() => {
+    if (Inview) {
+      fetchNextPage();
+      setPage((prev) => prev + 1);
+    }
+  }, [Inview]);
 
   const handleAdd = () => {
     setItemEdit(null);
@@ -93,24 +132,35 @@ const Services = () => {
           {isTable == true ? (
             <>
               <ServicesTable
-                isLoading={isLoading}
-                isFetching={isFetching}
                 error={error}
                 dataServices={dataServices}
                 handleAdd={handleAdd}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
+                result={result}
+                fetchNextPage={fetchNextPage}
+                hasNextPage={hasNextPage}
+                isFetching={isFetching}
+                isFetchingNextPage={isFetchingNextPage}
+                status={status}
+                setPage={setPage}
+                page={page}
+                ref={ref}
               ></ServicesTable>
             </>
           ) : (
             <ServicesList
-              isLoading={isLoading}
-              isFetching={isFetching}
               error={error}
               dataServices={dataServices}
               handleAdd={handleAdd}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
+              result={result}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasNextPage}
+              isFetching={isFetching}
+              isFetchingNextPage={isFetchingNextPage}
+              status={status}
             ></ServicesList>
           )}
         </div>

@@ -49,7 +49,7 @@ const ModalEditContact = ({ setIsModal, itemEdit }) => {
     contact_email: itemEdit ? itemEdit.contact_email : "",
     contact_message: itemEdit ? itemEdit.contact_message : "",
 
-    contact_email_old: itemEdit ? itemEdit.contact_email : "", // for update
+    contact_email_old: "", // for update
   };
 
   const yupSchema = Yup.object({
@@ -87,22 +87,22 @@ const ModalEditContact = ({ setIsModal, itemEdit }) => {
             return (
               <Form>
                 <div className="modal overflow">
-                    <div className="mt-3">
-                      <InputText
-                        label="Full Name"
-                        name="contact_fullname"
-                        type="text"
-                        disabled={mutation.isPending}
-                      />
-                    </div>
-                    <div className="mt-3 mb-5">
-                      <InputText
-                        label="Email Address"
-                        name="contact_email"
-                        type="text"
-                        disabled={mutation.isPending}
-                      />
-                    </div>
+                  <div className="mt-3">
+                    <InputText
+                      label="Full Name"
+                      name="contact_fullname"
+                      type="text"
+                      disabled={mutation.isPending}
+                    />
+                  </div>
+                  <div className="mt-3 mb-5">
+                    <InputText
+                      label="Email Address"
+                      name="contact_email"
+                      type="text"
+                      disabled={mutation.isPending}
+                    />
+                  </div>
                   <div className="relative mt-3 mb-5">
                     <InputTextArea
                       label="Message"
